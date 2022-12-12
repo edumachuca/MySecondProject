@@ -1,18 +1,24 @@
 import { useState, useRef, useEffect } from "react";
 import { TodoList } from "./components/TodoList";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 import "./App.css";
 
-const KEY = "todoApp.todos";
-const storedTodos = JSON.parse(localStorage.getItem(KEY));
 export const App = () => {
-  const [todos, setTodos] = useState(storedTodos);
+  const [todos, setTodos] = useState([]);
   const todoTaskRef = useRef();
 
   useEffect(() => {
-    console.log(todos);
-    localStorage.setItem(KEY, JSON.stringify(todos));
-  }, [todos]);
+    axios
+      .get("https://jsonplaceholder.typicode.com/todos")
+      .then((res) => {
+        console.log(res.data);
+        setTodos(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const toggleTodo = (id) => {
     const newTodos = [...todos];
@@ -22,11 +28,11 @@ export const App = () => {
   };
 
   const handleTodoAdd = () => {
-    const task = todoTaskRef.current.value;
-    if (task == "") return;
+    const title = todoTaskRef.current.value;
+    if (title == "") return;
 
     setTodos((prevTodos, index) => {
-      return [...prevTodos, { id: uuidv4(), task, completed: false }];
+      return [...prevTodos, { id: uuidv4(), title, completed: false }];
     });
     todoTaskRef.current.value = null;
   };
@@ -43,7 +49,7 @@ export const App = () => {
           className="input"
           ref={todoTaskRef}
           type="text"
-          placeholder="New task"
+          placeholder="New title"
         />
         <button className="button" onClick={handleTodoAdd}>
           ➕
@@ -51,10 +57,10 @@ export const App = () => {
       </div>
       <div className="create-card full">
         <button className="button" onClick={handleClearAll}>
-          Delete completed tasks
+          Delete completed todos
         </button>
         <div className="text">
-          {completed == 1 ? `${completed} task` : `${completed} tasks`} left.
+          {completed == 1 ? `${completed} title` : `${completed} titles`} left.
         </div>
         <TodoList todos={todos} toggleTodo={toggleTodo} />
       </div>

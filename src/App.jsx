@@ -12,7 +12,7 @@ export const App = () => {
     axios
       .get("https://jsonplaceholder.typicode.com/todos")
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setTodos(res.data);
       })
       .catch((err) => {
@@ -31,10 +31,18 @@ export const App = () => {
     const title = todoTaskRef.current.value;
     if (title == "") return;
 
-    setTodos((prevTodos, index) => {
-      return [...prevTodos, { id: uuidv4(), title, completed: false }];
-    });
-    todoTaskRef.current.value = null;
+    axios
+      .post("https://jsonplaceholder.typicode.com/todos", {
+        title: title,
+        completed: false,
+      })
+      .then((res) => {
+        setTodos(
+          [...todos, res.data] // adding new todo at the end of the list
+        );
+        alert("create new todo");
+      })
+      .finally(() => (todoTaskRef.current.value = null));
   };
   const handleClearAll = () => {
     const newTodos = todos.filter((todo) => !todo.completed);

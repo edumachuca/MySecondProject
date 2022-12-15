@@ -20,12 +20,27 @@ export const App = () => {
       });
   }, []);
 
-  const toggleTodo = (id) => {
+  const toggleTodo = (id) =>{
     const newTodos = [...todos];
-    const todo = newTodos.find((todo) => todo.id == id);
-    todo.completed = !todo.completed;
-    setTodos(newTodos);
+    let todo = newTodos.find((todo) => todo.id == id);
+    axios
+      .put(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+        completed: !todo.completed,
+        title: todo.title,
+      })
+      .then((res) => {
+        todo.completed = res.data.completed;
+        setTodos(newTodos);
+        alert("Status updated");
+      });
   };
+  
+  //{
+  //  const newTodos = [...todos];
+ //   const todo = newTodos.find((todo) => todo.id == id);
+//   todo.completed = !todo.completed;
+//    setTodos(newTodos);
+// };
 
   const handleTodoAdd = () => {
     const title = todoTaskRef.current.value;
@@ -40,7 +55,7 @@ export const App = () => {
         setTodos(
           [...todos, res.data] // adding new todo at the end of the list
         );
-        alert("create new todo");
+       
       })
       .finally(() => (todoTaskRef.current.value = null));
   };

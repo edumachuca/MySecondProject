@@ -32,7 +32,8 @@ export const App = () => {
         todo.completed = res.data.completed;
         setTodos(newTodos);
         alert("Status updated");
-      });
+      })
+      .catch((err) => alert(err.message));
   };
 
   const handleTodoAdd = () => {
@@ -49,16 +50,19 @@ export const App = () => {
           [...todos, res.data] // adding new todo at the end of the list
         );
       })
+      .catch((err) => alert(err.message))
       .finally(() => (todoTaskRef.current.value = null));
   };
-  const handleDelete = (id) => { // We need to pass the id of the item we want to delete
+  const handleDelete = (id) => {
+    // We need to pass the id of the item we want to delete
     axios
       .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
       .then(() => {
         const newTodos = todos.filter((todo) => todo.id !== id);
         setTodos(newTodos);
         alert("Todo successfully deleted");
-      });
+      })
+      .catch((err) => alert(err.message));
   };
   const completed = todos.filter((todo) => !todo.completed).length;
 
@@ -79,8 +83,11 @@ export const App = () => {
         <div className="text">
           {completed == 1 ? `${completed} title` : `${completed} titles`} left.
         </div>
-        <TodoList todos={todos} toggleTodo={toggleTodo} onDelete={handleDelete} />
-        
+        <TodoList
+          todos={todos}
+          toggleTodo={toggleTodo}
+          onDelete={handleDelete}
+        />
       </div>
     </div>
   );

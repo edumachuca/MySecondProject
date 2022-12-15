@@ -20,7 +20,7 @@ export const App = () => {
       });
   }, []);
 
-  const toggleTodo = (id) =>{
+  const toggleTodo = (id) => {
     const newTodos = [...todos];
     let todo = newTodos.find((todo) => todo.id == id);
     axios
@@ -34,13 +34,6 @@ export const App = () => {
         alert("Status updated");
       });
   };
-  
-  //{
-  //  const newTodos = [...todos];
- //   const todo = newTodos.find((todo) => todo.id == id);
-//   todo.completed = !todo.completed;
-//    setTodos(newTodos);
-// };
 
   const handleTodoAdd = () => {
     const title = todoTaskRef.current.value;
@@ -55,13 +48,17 @@ export const App = () => {
         setTodos(
           [...todos, res.data] // adding new todo at the end of the list
         );
-       
       })
       .finally(() => (todoTaskRef.current.value = null));
   };
-  const handleClearAll = () => {
-    const newTodos = todos.filter((todo) => !todo.completed);
-    setTodos(newTodos);
+  const handleDelete = (id) => { // We need to pass the id of the item we want to delete
+    axios
+      .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+      .then(() => {
+        const newTodos = todos.filter((todo) => todo.id !== id);
+        setTodos(newTodos);
+        alert("Todo successfully deleted");
+      });
   };
   const completed = todos.filter((todo) => !todo.completed).length;
 
@@ -79,13 +76,11 @@ export const App = () => {
         </button>
       </div>
       <div className="create-card full">
-        <button className="button" onClick={handleClearAll}>
-          Delete completed todos
-        </button>
         <div className="text">
           {completed == 1 ? `${completed} title` : `${completed} titles`} left.
         </div>
-        <TodoList todos={todos} toggleTodo={toggleTodo} />
+        <TodoList todos={todos} toggleTodo={toggleTodo} onDelete={handleDelete} />
+        
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-#root {
+# root {
   margin: 0;
   text-align: left;
 }
@@ -8,7 +8,7 @@ body {
 }
 
 .container {
-  color: rgb(229, 226, 226);
+  color: rgb(80, 74, 74);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -27,13 +27,13 @@ body {
   font-size: 18px;
 }
 .input {
+  color: rgb(80, 74, 74);
   width: 100%;
   border-radius: 10px !important;
   padding: 10px;
   outline: none;
-  color: rgb(229, 226, 226);
   border: none !important;
-  background: rgba(14, 18, 87, 0.85);
+  background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -43,9 +43,8 @@ body {
   margin-bottom: 15px;
 }
 
-.flex{
-  flex-direction: row!important;
-
+.flex {
+  flex-direction: row !important;
 }
 
 .button {
@@ -67,28 +66,47 @@ body {
   background-color: #7df083;
 }
 
+.buttonDelete {
+  text-transform: uppercase;
+  color: rgb(229, 226, 226);
+  font-size: 12px;
+  width: 100px;
+  border-radius: 30px;
+  padding: 10px;
+  outline: none;
+  border-width: 1px;
+  border-color: #7b0c0c;
+  cursor: pointer;
+  background-color: #ae1414;
+  border-style: solid;
+}
+
+.buttonDelete:hover {
+  background-color: #7b0c0c;
+}
+
 .text {
   margin-top: 20px;
 }
 
-.full{
-width: 60%;
+.full {
+  width: 60%;
 }
 
-.list{
+.list {
   display: flex;
   flex-direction: column;
   width: 100%;
-list-style: none;
-margin: 0!important;
-margin-block-start: 0;
-padding-inline-start: 0;
+  list-style: none;
+  margin: 0 !important;
+  margin-block-start: 0;
+  padding-inline-start: 0;
 }
 
 .create-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 30px;
   margin: 30px;
